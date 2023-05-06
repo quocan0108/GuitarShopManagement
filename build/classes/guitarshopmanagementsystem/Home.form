@@ -79,18 +79,19 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Ph&#x1ee5; ki&#x1ec7;n"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="phukienmenuActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="tatcasanphammenu">
               <Properties>
                 <Property name="text" type="java.lang.String" value="T&#x1ea5;t c&#x1ea3; s&#x1ea3;n ph&#x1ea9;m"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="tatcasanphammenuActionPerformed"/>
+              </Events>
             </MenuItem>
           </SubComponents>
-        </Menu>
-        <Menu class="javax.swing.JMenu" name="khachhangmenu">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Kh&#xe1;ch h&#xe0;ng"/>
-          </Properties>
         </Menu>
         <Menu class="javax.swing.JMenu" name="jMenu4">
           <Properties>
@@ -101,24 +102,23 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="&#x110;&#x1a1;n h&#xe0;ng"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="donhangmenuActionPerformed"/>
+              </Events>
             </MenuItem>
-            <Menu class="javax.swing.JMenu" name="jMenu7">
+            <MenuItem class="javax.swing.JMenuItem" name="khachhangmenui">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Kh&#xe1;ch h&#xe0;ng"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="khachhangmenuiActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="thongkemenu">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Th&#x1ed1;ng k&#xea;"/>
               </Properties>
-              <SubComponents>
-                <MenuItem class="javax.swing.JMenuItem" name="tktheotgmenu">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="Theo th&#x1edd;i gian"/>
-                  </Properties>
-                </MenuItem>
-                <MenuItem class="javax.swing.JMenuItem" name="tktheospmenu">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="Theo s&#x1ea3;n ph&#x1ea9;m"/>
-                  </Properties>
-                </MenuItem>
-              </SubComponents>
-            </Menu>
+            </MenuItem>
           </SubComponents>
         </Menu>
         <Menu class="javax.swing.JMenu" name="jMenu5">
@@ -148,6 +148,9 @@
   </NonVisualComponents>
   <Properties>
     <Property name="defaultCloseOperation" type="int" value="3"/>
+    <Property name="iconImages" type="java.util.List" editor="org.netbeans.modules.form.ComponentChooserEditor">
+      <ComponentRef name="null"/>
+    </Property>
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="menuBar" type="java.lang.String" value="jMenuBar1"/>
@@ -189,7 +192,7 @@
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Component id="jPanel2" alignment="0" max="32767" attributes="0"/>
+              <Component id="jPanel2" alignment="1" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
       </Layout>

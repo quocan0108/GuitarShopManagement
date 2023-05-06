@@ -139,7 +139,7 @@ public class DangNhap extends javax.swing.JFrame {
             Class.forName("com.mysql.jdbc.Driver");
             String url = "jdbc:mysql://127.0.0.1:3306/guitarshop";
             Connection con = DriverManager.getConnection(url,"root","01082003");
-            String sql = "select * from dangnhap where taikhoan=? and matkhau=?";
+            String sql = "select * from log_in where binary username=? and password=?";
             PreparedStatement ps = con.prepareCall(sql);
             ps.setString(1, txtTaiKhoan.getText());
             ps.setString(2,txtMatKhau.getText());

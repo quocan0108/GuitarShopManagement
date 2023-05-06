@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package guitarshopmanagementsystem;
+import java.awt.Toolkit;
 
 /**
  *
@@ -14,6 +15,8 @@ public class Home extends javax.swing.JFrame {
      * Creates new form HomeJFrm
      */
     public Home() {
+    	setTitle("Phần mềm quản lý shop đàn guitar");
+    	setIconImage(Toolkit.getDefaultToolkit().getImage(Home.class.getResource("/img/Users.png")));
         initComponents();
     }
 
@@ -42,18 +45,17 @@ public class Home extends javax.swing.JFrame {
         bassmenu = new javax.swing.JMenuItem();
         phukienmenu = new javax.swing.JMenuItem();
         tatcasanphammenu = new javax.swing.JMenuItem();
-        khachhangmenu = new javax.swing.JMenu();
         jMenu4 = new javax.swing.JMenu();
         donhangmenu = new javax.swing.JMenuItem();
-        jMenu7 = new javax.swing.JMenu();
-        tktheotgmenu = new javax.swing.JMenuItem();
-        tktheospmenu = new javax.swing.JMenuItem();
+        khachhangmenui = new javax.swing.JMenuItem();
+        thongkemenu = new javax.swing.JMenuItem();
         jMenu5 = new javax.swing.JMenu();
         phienbanmenu = new javax.swing.JMenuItem();
         banquyenmenu = new javax.swing.JMenuItem();
         lienhemenu = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setIconImages(null);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -74,7 +76,7 @@ public class Home extends javax.swing.JFrame {
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         jMenu1.setText("Hệ thống");
@@ -132,30 +134,43 @@ public class Home extends javax.swing.JFrame {
         jMenu2.add(jMenu6);
 
         phukienmenu.setText("Phụ kiện");
+        phukienmenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                phukienmenuActionPerformed(evt);
+            }
+        });
         jMenu2.add(phukienmenu);
 
         tatcasanphammenu.setText("Tất cả sản phẩm");
+        tatcasanphammenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tatcasanphammenuActionPerformed(evt);
+            }
+        });
         jMenu2.add(tatcasanphammenu);
 
         jMenuBar1.add(jMenu2);
 
-        khachhangmenu.setText("Khách hàng");
-        jMenuBar1.add(khachhangmenu);
-
         jMenu4.setText("Tác vụ");
 
         donhangmenu.setText("Đơn hàng");
+        donhangmenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                donhangmenuActionPerformed(evt);
+            }
+        });
         jMenu4.add(donhangmenu);
 
-        jMenu7.setText("Thống kê");
+        khachhangmenui.setText("Khách hàng");
+        khachhangmenui.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                khachhangmenuiActionPerformed(evt);
+            }
+        });
+        jMenu4.add(khachhangmenui);
 
-        tktheotgmenu.setText("Theo thời gian");
-        jMenu7.add(tktheotgmenu);
-
-        tktheospmenu.setText("Theo sản phẩm");
-        jMenu7.add(tktheospmenu);
-
-        jMenu4.add(jMenu7);
+        thongkemenu.setText("Thống kê");
+        jMenu4.add(thongkemenu);
 
         jMenuBar1.add(jMenu4);
 
@@ -210,10 +225,73 @@ public class Home extends javax.swing.JFrame {
 
     private void doimatkhaumenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_doimatkhaumenuActionPerformed
         // TODO add your handling code here:
-        DoiMatKhau dmk = new DoiMatKhau();
+        DoiMatKhau2 dmk = new DoiMatKhau2();
         dmk.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_doimatkhaumenuActionPerformed
+
+    private void tatcasanphammenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tatcasanphammenuActionPerformed
+        // TODO add your handling code here:
+        // Tạo panel mới
+        TatCaSanPhamJP tcsp = new TatCaSanPhamJP();
+
+        // Đặt panel là nội dung của frame Home
+        Home home = new Home();
+        home.setContentPane(tcsp);
+
+        // Hiển thị frame Home
+        home.setVisible(true);
+
+        // Đóng frame hiện tại (nếu có)
+        this.dispose();
+    }//GEN-LAST:event_tatcasanphammenuActionPerformed
+
+    private void phukienmenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_phukienmenuActionPerformed
+        // TODO add your handling code here:
+        // Tạo panel mới
+        PhuKienJP pk = new PhuKienJP();
+
+        // Đặt panel là nội dung của frame Home
+        Home home = new Home();
+        home.setContentPane(pk);
+
+        // Hiển thị frame Home
+        home.setVisible(true);
+
+        // Đóng frame hiện tại (nếu có)
+        this.dispose();
+    }//GEN-LAST:event_phukienmenuActionPerformed
+
+    private void khachhangmenuiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_khachhangmenuiActionPerformed
+        // TODO add your handling code here:
+        // Tạo panel mới
+        KhachHangJP2 khjp = new KhachHangJP2();
+
+        // Đặt panel là nội dung của frame Home
+        Home home = new Home();
+        home.setContentPane(khjp);
+        
+        // Hiển thị frame Home
+        home.setVisible(true);
+
+        // Đóng frame hiện tại (nếu có)
+        this.dispose();
+    }//GEN-LAST:event_khachhangmenuiActionPerformed
+
+    private void donhangmenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_donhangmenuActionPerformed
+        // TODO add your handling code here:
+        DonHangJP dh = new DonHangJP();
+
+        // Đặt panel là nội dung của frame Home
+        Home home = new Home();
+        home.setContentPane(dh);
+        
+        // Hiển thị frame Home
+        home.setVisible(true);
+
+        // Đóng frame hiện tại (nếu có)
+        this.dispose();
+    }//GEN-LAST:event_donhangmenuActionPerformed
 
     /**
      * @param args the command line arguments
@@ -265,18 +343,16 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenu jMenu5;
     private javax.swing.JMenu jMenu6;
-    private javax.swing.JMenu jMenu7;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JMenu khachhangmenu;
+    private javax.swing.JMenuItem khachhangmenui;
     private javax.swing.JMenuItem lienhemenu;
     private javax.swing.JMenuItem phienbanmenu;
     private javax.swing.JMenuItem phukienmenu;
     private javax.swing.JMenuItem tatcasanphammenu;
     private javax.swing.JMenuItem thoatmenu;
-    private javax.swing.JMenuItem tktheospmenu;
-    private javax.swing.JMenuItem tktheotgmenu;
+    private javax.swing.JMenuItem thongkemenu;
     private javax.swing.JMenuItem trangchumenu;
     // End of variables declaration//GEN-END:variables
 }
