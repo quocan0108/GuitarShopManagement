@@ -4,17 +4,24 @@
  */
 package guitarshopmanagementsystem;
 
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import javax.swing.JOptionPane;
+import javax.swing.*;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.LayoutStyle.ComponentPlacement;
 
 /**
  *
  * @author quoca
  */
-public class DoiMatKhau extends javax.swing.JFrame {
+public class DoiMatKhau extends JFrame implements ActionListener, KeyListener{
 
     /**
      * Creates new form DoiMatKhau
@@ -30,20 +37,21 @@ public class DoiMatKhau extends javax.swing.JFrame {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+    public void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
-        txtTaiKhoanDMK = new javax.swing.JTextField();
-        txtMatKhauCu = new javax.swing.JTextField();
-        txtMatKhauMoi = new javax.swing.JTextField();
-        btnXacNhan = new javax.swing.JButton();
-        btnHuy = new javax.swing.JButton();
+        jPanel1 = new JPanel();
+        jLabel5 = new JLabel();
+        jLabel6 = new JLabel();
+        jLabel7 = new JLabel();
+        jLabel8 = new JLabel();
+        txtTaiKhoanDMK = new JTextField();
+        txtMatKhauCu = new JTextField();
+        txtMatKhauMoi = new JTextField();
+        btnXacNhan = new JButton();
+        btnHuy = new JButton();
+        chckbxDuyTri = new JCheckBox("Duy trì đăng nhập");
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         jLabel5.setText("ĐỔI MẬT KHẨU");
 
@@ -54,130 +62,135 @@ public class DoiMatKhau extends javax.swing.JFrame {
         jLabel8.setText("Mật khẩu mới:");
 
         btnXacNhan.setText("Xác nhận");
-        btnXacNhan.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnXacNhanActionPerformed(evt);
-            }
-        });
-
         btnHuy.setText("Hủy");
-        btnHuy.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnHuyActionPerformed(evt);
-            }
-        });
+        btnHuy.addActionListener(this);
+        btnXacNhan.addActionListener(this);
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
+        txtTaiKhoanDMK.addKeyListener(this);
+        txtMatKhauCu.addKeyListener(this);
+        txtMatKhauMoi.addKeyListener(this);
+
+        GroupLayout jPanel1Layout = new GroupLayout(jPanel1);
         jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(67, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel8)
-                    .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.LEADING))
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtMatKhauMoi, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(14, 14, 14)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel5)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(txtTaiKhoanDMK)
-                                .addComponent(txtMatKhauCu, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addGap(58, 58, 58))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(94, 94, 94)
-                .addComponent(btnXacNhan)
-                .addGap(55, 55, 55)
-                .addComponent(btnHuy)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        	jPanel1Layout.createParallelGroup(Alignment.TRAILING)
+        		.addGroup(jPanel1Layout.createSequentialGroup()
+        			.addContainerGap(67, Short.MAX_VALUE)
+        			.addGroup(jPanel1Layout.createParallelGroup(Alignment.TRAILING)
+        				.addComponent(jLabel8)
+        				.addComponent(jLabel6, Alignment.LEADING)
+        				.addComponent(jLabel7, Alignment.LEADING))
+        			.addGap(14)
+        			.addGroup(jPanel1Layout.createParallelGroup(Alignment.LEADING)
+        				.addComponent(chckbxDuyTri)
+        				.addComponent(jLabel5)
+        				.addGroup(jPanel1Layout.createParallelGroup(Alignment.LEADING, false)
+        					.addComponent(txtTaiKhoanDMK)
+        					.addComponent(txtMatKhauCu, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 185, Short.MAX_VALUE)
+        					.addComponent(txtMatKhauMoi)))
+        			.addGap(58))
+        		.addGroup(Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+        			.addGap(94)
+        			.addComponent(btnXacNhan)
+        			.addGap(55)
+        			.addComponent(btnHuy)
+        			.addContainerGap(117, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(47, 47, 47)
-                .addComponent(jLabel5)
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(txtTaiKhoanDMK, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
-                    .addComponent(txtMatKhauCu, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel8)
-                    .addComponent(txtMatKhauMoi, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnXacNhan)
-                    .addComponent(btnHuy))
-                .addGap(26, 26, 26))
+        	jPanel1Layout.createParallelGroup(Alignment.LEADING)
+        		.addGroup(jPanel1Layout.createSequentialGroup()
+        			.addGap(47)
+        			.addComponent(jLabel5)
+        			.addGap(18)
+        			.addGroup(jPanel1Layout.createParallelGroup(Alignment.BASELINE)
+        				.addComponent(jLabel6)
+        				.addComponent(txtTaiKhoanDMK, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE))
+        			.addGap(18)
+        			.addGroup(jPanel1Layout.createParallelGroup(Alignment.BASELINE)
+        				.addComponent(jLabel7)
+        				.addComponent(txtMatKhauCu, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE))
+        			.addGap(18)
+        			.addGroup(jPanel1Layout.createParallelGroup(Alignment.BASELINE)
+        				.addComponent(jLabel8)
+        				.addComponent(txtMatKhauMoi, GroupLayout.PREFERRED_SIZE, 35, GroupLayout.PREFERRED_SIZE))
+        			.addPreferredGap(ComponentPlacement.UNRELATED)
+        			.addComponent(chckbxDuyTri)
+        			.addPreferredGap(ComponentPlacement.UNRELATED)
+        			.addGroup(jPanel1Layout.createParallelGroup(Alignment.BASELINE)
+        				.addComponent(btnXacNhan)
+        				.addComponent(btnHuy))
+        			.addContainerGap(22, Short.MAX_VALUE))
         );
+        jPanel1.setLayout(jPanel1Layout);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        GroupLayout layout = new GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+    
+    public void actionPerformed(ActionEvent evt) {
+    	if(evt.getSource() == btnXacNhan) {
+    		try {
+    			Connection con = JDBCConnection.getJDBCConnection();
 
-    private void btnHuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHuyActionPerformed
-        // TODO add your handling code here:
-        Home home = new Home();
-        home.setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_btnHuyActionPerformed
+                // Truy vấn để lấy mật khẩu hiện tại của người dùng
+                String sql1 = "SELECT password FROM log_in WHERE username=?";
+                PreparedStatement ps1 = con.prepareCall(sql1);
+                ps1.setString(1, txtTaiKhoanDMK.getText());
+                ResultSet rs1 = ps1.executeQuery();
+                
+            	if(txtTaiKhoanDMK.getText().equals("") || txtMatKhauCu.getText().equals("") || txtMatKhauMoi.getText().equals("")) {
+                    JOptionPane.showMessageDialog(this, "Vui lòng nhập đầy đủ thông tin", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                    return; 
+            	}
+                if (!rs1.next() || !rs1.getString("password").equals(txtMatKhauCu.getText())) {
+                    // Nếu mật khẩu hiện tại không trùng khớp với mật khẩu cũ
+                    JOptionPane.showMessageDialog(this, "Mật khẩu cũ không đúng", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                
+                // Nếu mật khẩu cũ đúng, thực hiện truy vấn cập nhật mật khẩu mới
+                String sql2 = "UPDATE log_in SET password=? WHERE username=?";
+                PreparedStatement ps2 = con.prepareCall(sql2);
+                ps2.setString(1, txtMatKhauMoi.getText());
+                ps2.setString(2, txtTaiKhoanDMK.getText());
+                int rowsAffected = ps2.executeUpdate();
 
-    private void btnXacNhanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXacNhanActionPerformed
-        // TODO add your handling code here:
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            String url = "jdbc:mysql://127.0.0.1:3306/guitarshop";
-            Connection con = DriverManager.getConnection(url,"root","01082003");
+                if (rowsAffected > 0) {
+                    JOptionPane.showMessageDialog(this, "Cập nhật mật khẩu thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
+                    if(chckbxDuyTri.isSelected()) {
+	                    Home home = new Home();
+	                    home.setVisible(true);
+	                    this.dispose();
+                    }
+                    else {
+                    	DangNhap dangnhap = new DangNhap();
+                        dangnhap.setVisible(true);
+                        this.dispose();
+                    }
+                }
+                else {
+                	JOptionPane.showMessageDialog(this, "Cập nhật mật khẩu thất bại", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                }
+            } catch (Exception e) {}
+    	}
+    	if(evt.getSource() == btnHuy) {
+    		Home home = new Home();
+            home.setVisible(true);
+            this.dispose();
+    	}
+    }
 
-            // Truy vấn để lấy mật khẩu hiện tại của người dùng
-            String sql1 = "SELECT matkhau FROM dangnhap WHERE taikhoan=?";
-            PreparedStatement ps1 = con.prepareCall(sql1);
-            ps1.setString(1, txtTaiKhoanDMK.getText());
-            ResultSet rs1 = ps1.executeQuery();
-            if (!rs1.next() || !rs1.getString("matkhau").equals(txtMatKhauCu.getText())) {
-                // Nếu mật khẩu hiện tại không trùng khớp với mật khẩu cũ
-                JOptionPane.showMessageDialog(this, "Mật khẩu cũ không đúng", "Lỗi", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-
-            // Nếu mật khẩu cũ đúng, thực hiện truy vấn cập nhật mật khẩu mới
-            String sql2 = "UPDATE dangnhap SET matkhau=? WHERE taikhoan=?";
-            PreparedStatement ps2 = con.prepareCall(sql2);
-            ps2.setString(1, txtMatKhauMoi.getText());
-            ps2.setString(2, txtTaiKhoanDMK.getText());
-            int rowsAffected = ps2.executeUpdate();
-            if (rowsAffected > 0) {
-                JOptionPane.showMessageDialog(this, "Cập nhật mật khẩu thành công", "Thông báo", JOptionPane.INFORMATION_MESSAGE);
-                Home home = new Home();
-                home.setVisible(true);
-                this.dispose();
-            } else {
-                JOptionPane.showMessageDialog(this, "Cập nhật mật khẩu thất bại", "Lỗi", JOptionPane.ERROR_MESSAGE);
-            }
-        } catch (Exception e) {
-        }
-    }//GEN-LAST:event_btnXacNhanActionPerformed
-
+    
     /**
      * @param args the command line arguments
      */
@@ -188,9 +201,9 @@ public class DoiMatKhau extends javax.swing.JFrame {
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
             }
@@ -200,7 +213,7 @@ public class DoiMatKhau extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(DoiMatKhau.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
             java.util.logging.Logger.getLogger(DoiMatKhau.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(DoiMatKhau.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
@@ -214,15 +227,39 @@ public class DoiMatKhau extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnHuy;
-    private javax.swing.JButton btnXacNhan;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JTextField txtMatKhauCu;
-    private javax.swing.JTextField txtMatKhauMoi;
-    private javax.swing.JTextField txtTaiKhoanDMK;
-    // End of variables declaration//GEN-END:variables
+    private JButton btnHuy;
+    private JButton btnXacNhan;
+    private JLabel jLabel5;
+    private JLabel jLabel6;
+    private JLabel jLabel7;
+    private JLabel jLabel8;
+    private JPanel jPanel1;
+    private JTextField txtMatKhauCu;
+    private JTextField txtMatKhauMoi;
+    private JTextField txtTaiKhoanDMK;
+    private JCheckBox chckbxDuyTri;
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		// TODO Auto-generated method stub
+		if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+			btnXacNhan.doClick();
+		}
+		if(e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+			btnHuy.doClick();
+		}
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated me
+		
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

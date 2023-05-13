@@ -26,16 +26,14 @@ import java.util.UUID;
  *
  * @author quoca
  */
-public class KhachHangJP2 extends javax.swing.JPanel {
+public class KhachHangJP extends javax.swing.JPanel {
     DefaultTableModel tableModel;
     int currentPos = -1;
-    public KhachHangJP2() {
+    public KhachHangJP() {
         initComponents();
         try {
-            Class.forName("com.mysql.jdbc.Driver");
-            String url = "jdbc:mysql://127.0.0.1:3306/guitarshop";
-            Connection con = DriverManager.getConnection(url,"root","01082003");
-            String sql = "select * from khachhang"; 
+        	Connection con = JDBCConnection.getJDBCConnection();
+            String sql = "select * from customers"; 
             PreparedStatement ps = con.prepareCall(sql);
             ResultSet rs = ps.executeQuery();
             
@@ -200,7 +198,7 @@ public class KhachHangJP2 extends javax.swing.JPanel {
             		{null, null, null, null},
             	},
             	new String[] {
-            		"id", "Hoten", "sdt", "diachi"
+            		"id_cus", "fullname", "phone_number", "address"
             	}
             ));
             jScrollPane1.setViewportView(tbKhachHang);
@@ -229,22 +227,19 @@ public class KhachHangJP2 extends javax.swing.JPanel {
 
     private void btnLuuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLuuActionPerformed
     	try {
-            UUID uuid = UUID.randomUUID();
-            String randomString = uuid.toString().substring(0, 8);
-            Class.forName("com.mysql.jdbc.Driver");
-            String url = "jdbc:mysql://127.0.0.1:3306/guitarshop";
-            Connection con = DriverManager.getConnection(url,"root","01082003");
-            String sql = "select * from khachhang";
-            String sql2 = "insert into khachhang (id, hoten, sdt, diachi) values ('" + randomString + "', '" + txtHoTen.getText() + "', '" + txtSoDienThoai.getText() + "', '" + txtDiaChi.getText() + "');";
-            String sql3 = "SELECT * FROM khachhang WHERE hoten = '" + txtHoTen.getText() + "' AND sdt = '" + txtSoDienThoai.getText() + "' AND diachi = '" + txtDiaChi.getText() + "'";
+            Connection con = JDBCConnection.getJDBCConnection();
+            int row2 = tbKhachHang.getSelectedRow();
+            String id_cus = tbKhachHang.getValueAt(row2, 0).toString();
+            System.out.println(id_cus);
+            String sql = "select * from customers";
+            String sql2 = "update customers set fullname=?, phone_number=?, address=? where id_cus = ?";
             Statement ps = con.createStatement();
-            
-            ResultSet rs2 = ps.executeQuery(sql3);
-            if(rs2.next()){
-                System.out.println("Tồn tại");
-                JOptionPane.showMessageDialog(this, "Khách hàng đã tồn tại!");
-            } else{
-            ps.executeUpdate(sql2);
+            PreparedStatement ps2 = con.prepareStatement(sql2);
+            ps2.setString(1, txtHoTen.getText());
+            ps2.setString(2, txtSoDienThoai.getText());
+            ps2.setString(3, txtDiaChi.getText());
+            ps2.setString(4, id_cus);
+            ps2.executeUpdate();
             ResultSet rs = ps.executeQuery(sql);
             
             DefaultTableModel model = new DefaultTableModel();
@@ -264,7 +259,7 @@ public class KhachHangJP2 extends javax.swing.JPanel {
 			}
 			tbKhachHang.setModel(model);
 			tbKhachHang.setVisible(true);
-            }            
+                     
     	} catch(Exception e) {}
     }//GEN-LAST:event_btnLuuActionPerformed
 
@@ -290,12 +285,12 @@ public class KhachHangJP2 extends javax.swing.JPanel {
         String diachi = txtDiaChi.getText();
         if(!hoTen.isEmpty())
         try {
-            Class.forName("com.mysql.jdbc.Driver");
-            String url = "jdbc:mysql://127.0.0.1:3306/guitarshop";
-            Connection con = DriverManager.getConnection(url,"root","01082003");
-            String sql = "select * from khachhang";
-            String sql2 = "delete from khachhang where hoten = ? and sdt = ? and diachi = ?";
-            //String sql2 = "insert into khachhang2 (hoten, sdt, diachi) values ('" + txtHoTen.getText() + "', '" + txtSoDienThoai.getText() + "', '" + txtDiaChi.getText() + "');";
+//            Class.forName("com.mysql.jdbc.Driver");
+//            String url = "jdbc:mysql://127.0.0.1:3306/guitarshop";
+//            Connection con = DriverManager.getConnection(url,"root","07092003");
+        	Connection con = JDBCConnection.getJDBCConnection();
+            String sql = "select * from customers";
+            String sql2 = "delete from customers where fullname = ? and phone_number = ? and address = ?";
             Statement ps = con.createStatement();
             PreparedStatement ps2 = con.prepareStatement(sql2);
             ps2.setString(1, hoTen);
@@ -343,10 +338,8 @@ public class KhachHangJP2 extends javax.swing.JPanel {
             s = "%"+s+"%";
             System.out.println(s);
 	        try {
-	            Class.forName("com.mysql.jdbc.Driver");
-	            String url = "jdbc:mysql://127.0.0.1:3306/guitarshop";
-	            Connection con = DriverManager.getConnection(url,"root","01082003");
-	            String sql = "select * from khachhang where hoten like ?;";
+	        	Connection con = JDBCConnection.getJDBCConnection();
+	            String sql = "select * from customers where fullname like ?;";
 				PreparedStatement ps2 = con.prepareStatement(sql);
 	            ps2.setString(1, s);
 	            

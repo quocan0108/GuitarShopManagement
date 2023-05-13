@@ -3,6 +3,30 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
 package guitarshopmanagementsystem;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
+import javax.swing.WindowConstants;
+
+import java.awt.Component;
+import java.awt.Font;
+import java.awt.Window;
+
+import javax.swing.*;
+
+import javax.swing.LayoutStyle.*;
+import javax.swing.table.*;
+
+import com.mysql.jdbc.Statement;
+
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.awt.event.ActionEvent;
 
 /**
  *
@@ -13,8 +37,67 @@ public class DonHangJP extends javax.swing.JPanel {
     /**
      * Creates new form DonHangJP
      */
+	String id_order = null;
     public DonHangJP() {
         initComponents();
+        try {
+        	Connection con = JDBCConnection.getJDBCConnection();
+        	String sql = "select id_order, cus_name, date, total from orders";
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            
+            DefaultTableModel model = (DefaultTableModel) tbDonHang.getModel();
+            while (rs.next()) {
+                String id_order = rs.getString("id_order");
+                String cus_name = rs.getString("cus_name");
+                String date = rs.getString("date");
+                Long total = Long.parseLong(rs.getString("total"));
+                
+                if (model.getRowCount() == 1 && model.getValueAt(0, 0) == null) {
+                    // Hàng đầu tiên là trống, thêm thông tin đơn hàng vào hàng đó
+                    model.setValueAt(id_order, 0, 0);
+                    model.setValueAt(cus_name, 0, 1);
+                    model.setValueAt(date, 0, 2);
+                    model.setValueAt(Long.toString(total) + " VNĐ", 0, 3);
+                } else {
+                    // Hàng đầu tiên đã có dữ liệu, thêm thông tin đơn hàng vào hàng mới
+                    model.addRow(new Object[]{id_order, cus_name, date, Long.toString(total) + " VNĐ"});
+                }
+            }
+        } catch(Exception ex) {}
+        tbDonHang.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int row = tbDonHang.getSelectedRow();
+//                String id_order = null;
+                if (row >= 0) {
+                    id_order = tbDonHang.getValueAt(row, 0).toString();
+//                    String cus_name = tbDonHang.getValueAt(row, 1).toString();
+//                    String date = tbDonHang.getValueAt(row, 2).toString();
+////                    Long total = Long.parseLong(tbDonHang.getValueAt(row, 3).toString());
+//                    String total = tbDonHang.getValueAt(row, 3).toString();
+//                    System.out.println(id_order + " " + cus_name + " " + date + " " + total);
+                    System.out.println(id_order);
+                }
+                
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+            }
+        });
     }
 
     /**
@@ -25,31 +108,138 @@ public class DonHangJP extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-
-        jLabel1 = new javax.swing.JLabel();
-
-        jLabel1.setText("Đơn hàng");
-
+        
+        JPanel JPanel1 = new JPanel();
+        
+        JScrollPane JScrollPane1 = new JScrollPane();
+        
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(104, 104, 104)
-                .addComponent(jLabel1)
-                .addContainerGap(543, Short.MAX_VALUE))
+        	layout.createParallelGroup(Alignment.LEADING)
+        		.addComponent(JPanel1, GroupLayout.DEFAULT_SIZE, 470, Short.MAX_VALUE)
+        		.addComponent(JScrollPane1, GroupLayout.DEFAULT_SIZE, 450, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(51, 51, 51)
-                .addComponent(jLabel1)
-                .addContainerGap(333, Short.MAX_VALUE))
+        	layout.createParallelGroup(Alignment.LEADING)
+        		.addGroup(layout.createSequentialGroup()
+        			.addComponent(JPanel1, GroupLayout.PREFERRED_SIZE, 78, GroupLayout.PREFERRED_SIZE)
+        			.addPreferredGap(ComponentPlacement.UNRELATED)
+        			.addComponent(JScrollPane1, GroupLayout.DEFAULT_SIZE, 211, Short.MAX_VALUE))
         );
+        
+        tbDonHang = new JTable();
+        tbDonHang.setModel(new DefaultTableModel(
+        	new Object[][] {
+        		{null, null, null, null},
+        	},
+        	new String[] {
+        		"ID Order", "T\u00EAn KH", "Ng\u00E0y t\u1EA1o", "T\u1ED5ng ti\u1EC1n"
+        	}
+        ));
+        JScrollPane1.setViewportView(tbDonHang);
+        
+                jLabel1 = new javax.swing.JLabel();
+                jLabel1.setFont(new Font("Tahoma", Font.BOLD, 13));
+                jLabel1.setHorizontalAlignment(SwingConstants.CENTER);
+                
+                jLabel1.setText("ĐƠN HÀNG");
+        
+        JButton btnTaoDon = new JButton("Tạo đơn");
+        btnTaoDon.addActionListener(new java.awt.event.ActionListener() {
+        	public void actionPerformed(java.awt.event.ActionEvent e) {
+        		btnTaoDonactionPerformed(e);
+        	}
+        });
+        
+        JButton btnXoaDon = new JButton("Xóa đơn");
+        btnXoaDon.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		try {
+					Connection con = JDBCConnection.getJDBCConnection();
+					String sql1 = "select id_order, cus_name, date, total from orders";
+					String sql2 = "delete from order_detail where id_order_detail = ?";
+					String sql3 = "delete from orders where id_order = ?";
+					Statement ps1 = (Statement) con.createStatement();
+					PreparedStatement ps2 = con.prepareStatement(sql2);
+					ps2.setString(1, id_order);
+					PreparedStatement ps3 = con.prepareStatement(sql3);
+					ps3.setString(1, id_order);
+					
+					int option = JOptionPane.showConfirmDialog(null, "Bạn có chắc chắn muốn xóa?", "Xác nhận xóa", JOptionPane.YES_NO_OPTION);
+					if(option == JOptionPane.YES_OPTION) {
+						ps2.executeUpdate();
+						ps3.executeUpdate();
+						ResultSet rs = ps1.executeQuery(sql1);
+						
+						DefaultTableModel model = new DefaultTableModel();
+			            
+			            ResultSetMetaData rsmd = rs.getMetaData();
+						int socot = rsmd.getColumnCount();
+						for(int j = 1; j <= socot; j++) {
+							model.addColumn(rsmd.getColumnLabel(j));
+						}
+						
+						while(rs.next()) {
+							Object[] row = new Object[socot];
+							for(int i = 1; i <= socot; i++) {
+								row[i - 1] = rs.getObject(i);
+							}
+							model.addRow(row);
+						}
+						tbDonHang.setModel(model);
+						tbDonHang.setVisible(true);
+						
+					} else {
+						return;
+					}
+					
+				} catch (Exception e2) {
+					// TODO: handle exception
+				}
+        	}
+        });
+        GroupLayout gl_JPanel1 = new GroupLayout(JPanel1);
+        gl_JPanel1.setHorizontalGroup(
+        	gl_JPanel1.createParallelGroup(Alignment.LEADING)
+        		.addGroup(gl_JPanel1.createSequentialGroup()
+        			.addGap(135)
+        			.addComponent(btnTaoDon, GroupLayout.DEFAULT_SIZE, 84, Short.MAX_VALUE)
+        			.addPreferredGap(ComponentPlacement.RELATED)
+        			.addComponent(btnXoaDon, GroupLayout.DEFAULT_SIZE, 85, Short.MAX_VALUE)
+        			.addGap(140))
+        		.addGroup(gl_JPanel1.createSequentialGroup()
+        			.addGap(190)
+        			.addComponent(jLabel1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        			.addGap(193))
+        );
+        gl_JPanel1.setVerticalGroup(
+        	gl_JPanel1.createParallelGroup(Alignment.LEADING)
+        		.addGroup(gl_JPanel1.createSequentialGroup()
+        			.addGap(18)
+        			.addComponent(jLabel1)
+        			.addPreferredGap(ComponentPlacement.UNRELATED)
+        			.addGroup(gl_JPanel1.createParallelGroup(Alignment.BASELINE)
+        				.addComponent(btnXoaDon, GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+        				.addComponent(btnTaoDon, GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE))
+        			.addGap(3))
+        );
+        JPanel1.setLayout(gl_JPanel1);
+        this.setLayout(layout);
     }// </editor-fold>//GEN-END:initComponents
-
+    
+    
+    private void btnTaoDonactionPerformed(java.awt.event.ActionEvent e) {
+    	try {
+    		Connection con = JDBCConnection.getJDBCConnection();
+    		Window currentWindow = SwingUtilities.getWindowAncestor((Component) e.getSource());
+            currentWindow.dispose();
+    		
+    		DonHangMoi dh = new DonHangMoi();
+    		dh.setVisible(true);
+    	}catch(Exception ex) {}
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
-    // End of variables declaration//GEN-END:variables
+    private JTable tbDonHang;
 }

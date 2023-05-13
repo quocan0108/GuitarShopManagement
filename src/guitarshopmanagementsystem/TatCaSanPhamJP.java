@@ -26,10 +26,8 @@ public class TatCaSanPhamJP extends javax.swing.JPanel {
     public TatCaSanPhamJP() {
         initComponents();
         try {
-            Class.forName("com.mysql.jdbc.Driver");
-            String url = "jdbc:mysql://127.0.0.1:3306/guitarshop";
-            Connection con = DriverManager.getConnection(url,"root","01082003");
-            String sql = "select * from products"; 
+			Connection con = JDBCConnection.getJDBCConnection();
+            String sql = "select * from products order by type"; 
             PreparedStatement ps = con.prepareCall(sql);
             ResultSet rs = ps.executeQuery();
             
@@ -125,6 +123,11 @@ public class TatCaSanPhamJP extends javax.swing.JPanel {
         jLabel5.setText("Loại:");
 
         cbbLoai.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Acoustic", "Classic", "Electric", "Bass", "Phụ kiện" }));
+        cbbLoai.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbbLoaiActionPerformed(evt);
+            }
+        });
 
         btnTimKiem.setText("Tìm kiếm");
         btnTimKiem.addActionListener(new java.awt.event.ActionListener() {
@@ -263,43 +266,46 @@ public class TatCaSanPhamJP extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
-        // TODO add your handling code here:
         try {
             UUID uuid = UUID.randomUUID();
             String randomString = uuid.toString().substring(0, 8);
-            Class.forName("com.mysql.jdbc.Driver");
-            String url = "jdbc:mysql://127.0.0.1:3306/guitarshop";
-            Connection con = DriverManager.getConnection(url,"root","01082003");
-            String sql = "select * from products";
+			Connection con = JDBCConnection.getJDBCConnection();
+            String sql = "select * from products order by type";
+            String sql1 = "select name from products where name = '" + txtTen.getText() + "'";
             String sql2 = "insert into products (id_product,name,price,quantity,type) values ('" + randomString + "', '" + txtTen.getText() + "', '" + txtGia.getText() + "', '" + txtConHang.getText() + "', '" + cbbLoai.getSelectedItem() + "');";
+            
             Statement ps = con.createStatement();
-            
-            ps.executeUpdate(sql2);
-            ResultSet rs = ps.executeQuery(sql);
-            
-            DefaultTableModel model = new DefaultTableModel();
-            
-            ResultSetMetaData rsmd = rs.getMetaData();
-			int socot = rsmd.getColumnCount();
-			for(int j = 1; j <= socot; j++) {
-				model.addColumn(rsmd.getColumnLabel(j));
-			}
-			
-			while(rs.next()) {
-				Object[] row = new Object[socot];
-				for(int i = 1; i <= socot; i++) {
-					row[i - 1] = rs.getObject(i);
+            ResultSet rs1 = ps.executeQuery(sql1);
+            if(rs1.next()) {
+            	JOptionPane.showMessageDialog(null, "Sản phẩm đã tồn tại");
+            } else {
+	            ps.executeUpdate(sql2);
+	            ResultSet rs = ps.executeQuery(sql);
+	            JOptionPane.showMessageDialog(null, "Thêm sản phẩm thành công");
+	            
+	            DefaultTableModel model = new DefaultTableModel();
+	            
+	            ResultSetMetaData rsmd = rs.getMetaData();
+				int socot = rsmd.getColumnCount();
+				for(int j = 1; j <= socot; j++) {
+					model.addColumn(rsmd.getColumnLabel(j));
 				}
-				model.addRow(row);
-			}
-			tbTatCaSanPham.setModel(model);
-			tbTatCaSanPham.setVisible(true);
-	
+				
+				while(rs.next()) {
+					Object[] row = new Object[socot];
+					for(int i = 1; i <= socot; i++) {
+						row[i - 1] = rs.getObject(i);
+					}
+					model.addRow(row);
+				}
+				
+				tbTatCaSanPham.setModel(model);
+				tbTatCaSanPham.setVisible(true);
+            }
     	} catch(Exception e) {}
     }//GEN-LAST:event_btnThemActionPerformed
 
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
-        // TODO add your handling code here:
         String ten = txtTen.getText();
         String gia = txtGia.getText();
         String soluongtonkho = txtConHang.getText();
@@ -308,10 +314,8 @@ public class TatCaSanPhamJP extends javax.swing.JPanel {
         String id = tbTatCaSanPham.getValueAt(row2, 0).toString();
         if(!ten.isEmpty())
         try {
-            Class.forName("com.mysql.jdbc.Driver");
-            String url = "jdbc:mysql://127.0.0.1:3306/guitarshop";
-            Connection con = DriverManager.getConnection(url,"root","01082003");
-            String sql = "select * from products";
+			Connection con = JDBCConnection.getJDBCConnection();
+            String sql = "select * from products order by type";
             String sql2 = "update products set name=?, price=?, quantity=?, type=? where id_product=?";
             Statement ps = con.createStatement();
             PreparedStatement ps2 = con.prepareStatement(sql2);
@@ -346,14 +350,11 @@ public class TatCaSanPhamJP extends javax.swing.JPanel {
     }//GEN-LAST:event_btnSuaActionPerformed
 
     private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
-        // TODO add your handling code here:
         String ten = txtTen.getText();
         if(!ten.isEmpty())
         try {
-            Class.forName("com.mysql.jdbc.Driver");
-            String url = "jdbc:mysql://127.0.0.1:3306/guitarshop";
-            Connection con = DriverManager.getConnection(url,"root","01082003");
-            String sql = "select * from products";
+        	Connection con = JDBCConnection.getJDBCConnection();
+            String sql = "select * from products order by type";
             String sql2 = "delete from products where name = ?";
             Statement ps = con.createStatement();
             PreparedStatement ps2 = con.prepareStatement(sql2);
@@ -366,7 +367,7 @@ public class TatCaSanPhamJP extends javax.swing.JPanel {
 	            txtTen.setText("");
 	            txtGia.setText("");
 	            txtConHang.setText("");
-                    cbbLoai.setSelectedItem(null);
+                cbbLoai.setSelectedItem(null);
 	            
 	            ResultSet rs = ps.executeQuery(sql);
 	            
@@ -401,11 +402,9 @@ public class TatCaSanPhamJP extends javax.swing.JPanel {
             s = "%"+s+"%";
             System.out.println(s);
 	        try {
-	            Class.forName("com.mysql.jdbc.Driver");
-	            String url = "jdbc:mysql://127.0.0.1:3306/guitarshop";
-	            Connection con = DriverManager.getConnection(url,"root","01082003");
-	            String sql = "select * from products where name like ?;";
-                    PreparedStatement ps2 = con.prepareStatement(sql);
+				Connection con = JDBCConnection.getJDBCConnection();
+	            String sql = "select * from products where name like ? order by type;";
+                PreparedStatement ps2 = con.prepareStatement(sql);
 	            ps2.setString(1, s);
 	            
 	            ResultSet rs = ps2.executeQuery();
@@ -435,7 +434,6 @@ public class TatCaSanPhamJP extends javax.swing.JPanel {
     }//GEN-LAST:event_btnTimKiemActionPerformed
 
     private void tbTatCaSanPhamMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbTatCaSanPhamMouseClicked
-        // TODO add your handling code here:
         int row = tbTatCaSanPham.getSelectedRow();
         if (row >= 0) {
             // Lấy thông tin của hàng được chọn.
@@ -451,6 +449,10 @@ public class TatCaSanPhamJP extends javax.swing.JPanel {
             cbbLoai.setSelectedItem(loai);
         }
     }//GEN-LAST:event_tbTatCaSanPhamMouseClicked
+
+    private void cbbLoaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbbLoaiActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbbLoaiActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

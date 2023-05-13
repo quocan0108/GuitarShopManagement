@@ -136,9 +136,7 @@ public class DangNhap extends javax.swing.JFrame {
 
     private void btnDangNhapActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDangNhapActionPerformed
         try {
-            Class.forName("com.mysql.jdbc.Driver");
-            String url = "jdbc:mysql://127.0.0.1:3306/guitarshop";
-            Connection con = DriverManager.getConnection(url,"root","01082003");
+        	Connection con = JDBCConnection.getJDBCConnection();
             String sql = "select * from log_in where binary username=? and password=?";
             PreparedStatement ps = con.prepareCall(sql);
             ps.setString(1, txtTaiKhoan.getText());

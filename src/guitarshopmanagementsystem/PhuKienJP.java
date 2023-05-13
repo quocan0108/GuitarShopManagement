@@ -13,6 +13,8 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.Statement;
 import java.util.UUID;
+
+import javax.swing.ButtonGroup;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 /**
@@ -29,9 +31,7 @@ public class PhuKienJP extends javax.swing.JPanel {
     public PhuKienJP() {
         initComponents();
         try {
-            Class.forName("com.mysql.jdbc.Driver");
-            String url = "jdbc:mysql://127.0.0.1:3306/guitarshop";
-            Connection con = DriverManager.getConnection(url,"root","01082003");
+        	Connection con = JDBCConnection.getJDBCConnection();
             String sql = "select * from products where type = 'Phụ kiện'"; 
             PreparedStatement ps = con.prepareCall(sql);
             ResultSet rs = ps.executeQuery();
@@ -77,17 +77,20 @@ public class PhuKienJP extends javax.swing.JPanel {
         rbCapo = new javax.swing.JRadioButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbPhuKien = new javax.swing.JTable();
-        btnGroup = new javax.swing.ButtonGroup();
+        ButtonGroup group = new ButtonGroup();
+        group.add(rbBaoDan);
+        group.add(rbCapo);
+        group.add(rbDayDan);
+        group.add(rbDayDeo);
+        group.add(rbEQ);
+        group.add(rbPick);
         
-        btnGroup.add(rbCapo);
-        btnGroup.add(rbDayDan);
-        btnGroup.add(rbBaoDan);
-        btnGroup.add(rbDayDeo);
-        btnGroup.add(rbEQ);
-        btnGroup.add(rbPick);
+        
         
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel1.setText("PHỤ KIỆN");
+        jLabel1.setName(""); // NOI18N
+        jLabel1.setPreferredSize(null);
 
         btnTimKiem.setText("Tìm kiếm");
         btnTimKiem.addActionListener(new java.awt.event.ActionListener() {
@@ -173,7 +176,7 @@ public class PhuKienJP extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(36, 36, 36)
-                        .addComponent(jLabel1))
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(142, 142, 142)
                         .addComponent(rbCapo)
@@ -196,7 +199,7 @@ public class PhuKienJP extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(25, 25, 25)
-                        .addComponent(jLabel1)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(64, 64, 64))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(7, 7, 7)
@@ -223,9 +226,7 @@ public class PhuKienJP extends javax.swing.JPanel {
             s = "%"+s+"%";
             System.out.println(s);
             try {
-                Class.forName("com.mysql.jdbc.Driver");
-                String url = "jdbc:mysql://127.0.0.1:3306/guitarshop";
-                Connection con = DriverManager.getConnection(url,"root","01082003");
+            	Connection con = JDBCConnection.getJDBCConnection();
                 String sql = "select * from products where type = 'Phụ kiện' and name like ?;";
                 PreparedStatement ps2 = con.prepareStatement(sql);
                 ps2.setString(1, s);
@@ -259,9 +260,7 @@ public class PhuKienJP extends javax.swing.JPanel {
     private void rbCapoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbCapoActionPerformed
         // TODO add your handling code here:
         try {
-            Class.forName("com.mysql.jdbc.Driver");
-            String url = "jdbc:mysql://127.0.0.1:3306/guitarshop";
-            Connection con = DriverManager.getConnection(url,"root","01082003");
+        	Connection con = JDBCConnection.getJDBCConnection();
             String sql = "select * from products where type = 'Phụ kiện' and name like '%CAPO%';";
             PreparedStatement ps = con.prepareCall(sql);
             ResultSet rs = ps.executeQuery();
@@ -290,9 +289,7 @@ public class PhuKienJP extends javax.swing.JPanel {
     private void rbDayDanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbDayDanActionPerformed
         // TODO add your handling code here:
         try {
-            Class.forName("com.mysql.jdbc.Driver");
-            String url = "jdbc:mysql://127.0.0.1:3306/guitarshop";
-            Connection con = DriverManager.getConnection(url,"root","01082003");
+        	Connection con = JDBCConnection.getJDBCConnection();
             String sql = "select * from products where type = 'Phụ kiện' and name like '%STRING%';";
             PreparedStatement ps = con.prepareCall(sql);
             ResultSet rs = ps.executeQuery();
@@ -321,9 +318,7 @@ public class PhuKienJP extends javax.swing.JPanel {
     private void rbPickActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbPickActionPerformed
         // TODO add your handling code here:
         try {
-            Class.forName("com.mysql.jdbc.Driver");
-            String url = "jdbc:mysql://127.0.0.1:3306/guitarshop";
-            Connection con = DriverManager.getConnection(url,"root","01082003");
+        	Connection con = JDBCConnection.getJDBCConnection();
             String sql = "select * from products where type = 'Phụ kiện' and name like '%PICK%';";
             PreparedStatement ps = con.prepareCall(sql);
             ResultSet rs = ps.executeQuery();
@@ -352,9 +347,7 @@ public class PhuKienJP extends javax.swing.JPanel {
     private void rbEQActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbEQActionPerformed
         // TODO add your handling code here:
         try {
-            Class.forName("com.mysql.jdbc.Driver");
-            String url = "jdbc:mysql://127.0.0.1:3306/guitarshop";
-            Connection con = DriverManager.getConnection(url,"root","01082003");
+        	Connection con = JDBCConnection.getJDBCConnection();
             String sql = "select * from products where type = 'Phụ kiện' and name like '%EQ%';";
             PreparedStatement ps = con.prepareCall(sql);
             ResultSet rs = ps.executeQuery();
@@ -383,9 +376,7 @@ public class PhuKienJP extends javax.swing.JPanel {
     private void rbDayDeoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbDayDeoActionPerformed
         // TODO add your handling code here:
         try {
-            Class.forName("com.mysql.jdbc.Driver");
-            String url = "jdbc:mysql://127.0.0.1:3306/guitarshop";
-            Connection con = DriverManager.getConnection(url,"root","01082003");
+        	Connection con = JDBCConnection.getJDBCConnection();
             String sql = "select * from products where type = 'Phụ kiện' and name like '%DÂY ĐEO%';";
             PreparedStatement ps = con.prepareCall(sql);
             ResultSet rs = ps.executeQuery();
@@ -414,9 +405,7 @@ public class PhuKienJP extends javax.swing.JPanel {
     private void rbBaoDanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbBaoDanActionPerformed
         // TODO add your handling code here:
         try {
-            Class.forName("com.mysql.jdbc.Driver");
-            String url = "jdbc:mysql://127.0.0.1:3306/guitarshop";
-            Connection con = DriverManager.getConnection(url,"root","01082003");
+        	Connection con = JDBCConnection.getJDBCConnection();
             String sql = "select * from products where type = 'Phụ kiện' and name like '%BAO ĐÀN%';";
             PreparedStatement ps = con.prepareCall(sql);
             ResultSet rs = ps.executeQuery();
@@ -444,7 +433,6 @@ public class PhuKienJP extends javax.swing.JPanel {
 
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.ButtonGroup btnGroup;
     private javax.swing.JButton btnTimKiem;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
